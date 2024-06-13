@@ -1,1 +1,1 @@
-intro to shell basics
+switches the current user to the user betty
