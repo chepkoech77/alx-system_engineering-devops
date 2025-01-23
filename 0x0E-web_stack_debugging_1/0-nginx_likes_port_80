@@ -1,0 +1,19 @@
+#!/bin/bash
+# Install Nginx if not already present
+if ! which nginx &> /dev/null; then
+  sudo apt update
+  sudo apt install nginx -y
+fi
+
+# Add the custom header to the default Nginx configuration
+sudo sed -i '/server_name _;/a\
+add_header X-Served-By $hostname;' /etc/nginx/sites-available/default
+
+# Test the configuration and reload Nginx
+sudo nginx -t
+if [ $? -eq 0 ]; then
+  sudo service nginx reload
+else
+  echo "Error in Nginx configuration. Please check the syntax and try again."
+fi
+
